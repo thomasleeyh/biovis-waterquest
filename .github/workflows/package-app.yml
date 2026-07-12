@@ -1,0 +1,77 @@
+name: Package desktop apps
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  package-windows:
+    name: Windows (x64)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Build application JAR
+        run: .\mvnw.cmd --batch-mode clean package
+      - name: Create self-contained application
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force target/package-input
+          Copy-Item target/WaterQuest.jar target/package-input/
+          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
+          Compress-Archive -Path target/package/WaterQuest -DestinationPath WaterQuest-Windows-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WaterQuest-Windows-x64
+          path: WaterQuest-Windows-x64.zip
+      - name: Add package to GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: WaterQuest-Windows-x64.zip
+
+  package-macos:
+    name: macOS (${{ matrix.arch }})
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15-intel
+            arch: Intel
+            artifact: WaterQuest-macOS-Intel
+          - runner: macos-14
+            arch: Apple-Silicon
+            artifact: WaterQuest-macOS-Apple-Silicon
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Build application JAR
+        run: ./mvnw --batch-mode clean package
+      - name: Create self-contained application
+        run: |
+          mkdir -p target/package-input
+          cp target/WaterQuest.jar target/package-input/
+          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
+          ditto -c -k --sequesterRsrc --keepParent target/package/WaterQuest.app "${{ matrix.artifact }}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}.zip
+      - name: Add package to GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.artifact }}.zip

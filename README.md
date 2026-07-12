@@ -12,6 +12,35 @@ Requirement: JDK 21. The included Maven Wrapper downloads the correct Maven vers
 
 In IntelliJ IDEA, open this directory as a Maven project, select a JDK 21 SDK, enable use of the Maven Wrapper when prompted, then run `application.Main` or the Maven goal `javafx:run`.
 
+## Downloadable desktop apps
+
+The GitHub Actions workflow in `.github/workflows/package-app.yml` creates
+self-contained downloads for Windows, Intel Macs, and Apple Silicon Macs. Each
+ZIP includes the application, Java 21 runtime, JavaFX, and all other required
+dependencies. End users do not need to install Java or Maven.
+
+To make packages without publishing a release, open the repository's **Actions**
+tab, select **Package desktop apps**, and choose **Run workflow**. Download the
+completed artifacts from the workflow run.
+
+To publish the ZIPs on GitHub Releases, create and push a version tag:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The workflow adds these downloads to the release:
+
+- `WaterQuest-Windows-x64.zip` — extract it and run `WaterQuest.exe`
+- `WaterQuest-macOS-Intel.zip` — for Intel-based Macs
+- `WaterQuest-macOS-Apple-Silicon.zip` — for M-series Macs
+
+The macOS packages are currently unsigned. macOS may therefore ask the user to
+right-click `WaterQuest.app` and choose **Open** the first time. Public,
+warning-free distribution requires an Apple Developer ID certificate and
+notarization.
+
 ## Architecture
 
 - `application` — JavaFX entry point
