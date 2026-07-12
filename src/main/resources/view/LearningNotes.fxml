@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.LearningNotesController" styleClass="learning-root" prefWidth="1200" prefHeight="760">
+  <top>
+    <VBox spacing="8" styleClass="learning-header">
+      <HBox alignment="CENTER_LEFT" spacing="16">
+        <Button fx:id="backButton" text="‹ MAIN MENU" onAction="#returnToMenu" styleClass="navigation-button"/>
+        <VBox>
+          <Label text="WATER QUEST • SB015" styleClass="learning-eyebrow"/>
+          <Label text="LEARNING NOTES" styleClass="learning-title"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="topicNumberLabel" styleClass="topic-number"/>
+      </HBox>
+      <ProgressBar fx:id="topicProgressBar" maxWidth="Infinity" progress="0" styleClass="learning-progress"/>
+    </VBox>
+  </top>
+  <left>
+    <ScrollPane fx:id="sidebarScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="topic-scroll">
+      <VBox fx:id="topicListBox" spacing="8" styleClass="sidebar"/>
+    </ScrollPane>
+  </left>
+  <center>
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll">
+      <VBox fx:id="storyPane" spacing="18" styleClass="content-card">
+        <VBox fx:id="pageHost" spacing="18"/>
+        <Label fx:id="errorLabel" styleClass="error-label"/>
+        <Label fx:id="topicTitleLabel" styleClass="topic-title"/>
+        <HBox fx:id="imageStageHost" alignment="CENTER">
+          <StackPane fx:id="imageStage" styleClass="image-stage">
+            <ImageView fx:id="mainImageView" fitWidth="760" fitHeight="310" preserveRatio="true"/>
+            <ImageView fx:id="secondaryImageView" fitWidth="300" fitHeight="190" preserveRatio="true" styleClass="secondary-image"/>
+            <Pane fx:id="ambientLayer" prefWidth="760" prefHeight="310" maxWidth="760" maxHeight="310" mouseTransparent="true" styleClass="ambient-layer"/>
+            <Label fx:id="solventImageInfoLabel" visible="false" managed="false" wrapText="true"
+                   maxWidth="285" StackPane.alignment="BOTTOM_CENTER" styleClass="solvent-image-info"/>
+            <AnchorPane fx:id="moleculeHotspots" prefWidth="760" prefHeight="310" maxWidth="760" maxHeight="310" pickOnBounds="false">
+              <Button fx:id="oxygenHotspot" text="O" accessibleText="Explore the oxygen atom" onAction="#showOxygenInfo" layoutX="348" layoutY="92" styleClass="molecule-hotspot,oxygen-hotspot"/>
+              <Button fx:id="leftHydrogenHotspot" text="H" accessibleText="Explore a hydrogen atom" onAction="#showHydrogenInfo" layoutX="284" layoutY="164" styleClass="molecule-hotspot,hydrogen-hotspot"/>
+              <Button fx:id="rightHydrogenHotspot" text="H" accessibleText="Explore a hydrogen atom" onAction="#showHydrogenInfo" layoutX="443" layoutY="164" styleClass="molecule-hotspot,hydrogen-hotspot"/>
+              <Button fx:id="covalentHotspot" text="1" accessibleText="Explore the polar covalent bond" onAction="#showCovalentBondInfo" layoutX="326" layoutY="145" styleClass="molecule-hotspot,bond-hotspot"/>
+              <Button fx:id="angleHotspot" text="2" accessibleText="Explore the 104.5 degree bond angle" onAction="#showAngleInfo" layoutX="382" layoutY="188" styleClass="molecule-hotspot,concept-hotspot"/>
+              <Button fx:id="hydrogenBondHotspot" text="3" accessibleText="Explore the hydrogen bond between water molecules" onAction="#showHydrogenBondInfo" layoutX="485" layoutY="214" styleClass="molecule-hotspot,concept-hotspot"/>
+            </AnchorPane>
+          </StackPane>
+        </HBox>
+        <StackPane fx:id="structureImageActionHost" visible="false" managed="false"
+                   alignment="CENTER" mouseTransparent="false" pickOnBounds="false"
+                   styleClass="structure-image-action-host">
+          <Button fx:id="structureImageActionButton" text="ZOOM INTO BOTTLE  ›"
+                  onAction="#advanceStructureJourney" styleClass="structure-image-action"/>
+        </StackPane>
+        <Label fx:id="hotspotInstruction" text="Select a glowing marker to inspect the molecule • 0 of 5 discovered" styleClass="hotspot-instruction"/>
+        <VBox fx:id="hotspotInfoCard" spacing="5" styleClass="hotspot-info-card">
+          <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="hotspotNumberLabel" text="1" styleClass="hotspot-number"/>
+            <Label fx:id="hotspotTitleLabel" text="Choose a marker" styleClass="hotspot-title"/>
+          </HBox>
+          <Label fx:id="hotspotDetailLabel" text="Information will appear here one concept at a time." wrapText="true" styleClass="hotspot-detail"/>
+          <HBox fx:id="journeyControls" alignment="CENTER_RIGHT" spacing="8" visible="false" managed="false">
+            <Button fx:id="backLevelButton" text="‹ BACK ONE LEVEL" onAction="#showPreviousJourneyLevel" styleClass="navigation-button,journey-button"/>
+            <Button fx:id="zoomDeeperButton" text="ZOOM DEEPER ›" onAction="#advanceStructureJourney" visible="false" managed="false" styleClass="primary-button,journey-button"/>
+          </HBox>
+        </VBox>
+        <Label fx:id="solventConclusionLabel" text="Conclusion: Hydration shells keep Na⁺ and Cl⁻ separated and dispersed throughout the aqueous solution." wrapText="true" visible="false" managed="false" styleClass="solvent-conclusion"/>
+        <Label fx:id="descriptionLabel" wrapText="true" styleClass="description-text"/>
+        <VBox fx:id="keyPointsSection" spacing="8">
+          <Label text="KEY POINTS" styleClass="section-label"/>
+          <VBox fx:id="keyPointsBox" spacing="8"/>
+        </VBox>
+        <VBox fx:id="funFactCard" spacing="5" styleClass="fun-fact-card">
+          <Label text="FUN FACT" styleClass="section-label"/>
+          <Label fx:id="funFactLabel" wrapText="true"/>
+        </VBox>
+        <VBox fx:id="examTipCard" spacing="5" styleClass="exam-tip-card">
+          <Label text="EXAMINATION TIP" styleClass="section-label"/>
+          <Label fx:id="examTipLabel" wrapText="true"/>
+        </VBox>
+        <HBox fx:id="bottomNavigation" alignment="CENTER" spacing="10" styleClass="bottom-navigation">
+          <Button fx:id="notesMenuButton" text="‹ LEARNING NOTES MENU" onAction="#backToNotesHome" styleClass="navigation-button"/>
+          <Button fx:id="propertiesMenuButton" text="‹ PROPERTIES MENU" onAction="#backToProperties" styleClass="navigation-button"/>
+          <Button fx:id="previousButton" text="‹ PREVIOUS" onAction="#showPreviousTopic" styleClass="navigation-button"/>
+          <Button fx:id="nextButton" text="NEXT TOPIC  ›" onAction="#showNextTopic" styleClass="navigation-button"/>
+        </HBox>
+      </VBox>
+    </ScrollPane>
+  </center>
+</BorderPane>

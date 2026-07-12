@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MainMenuController" styleClass="app-root,menu-background">
+ <Pane fx:id="particles" mouseTransparent="true"/><VBox alignment="CENTER" spacing="20" maxWidth="620" styleClass="glass-card">
+  <Label text="BIOLOGY LAB • SB015" styleClass="eyebrow"/><Label text="WATER QUEST" styleClass="hero-title"/><Label text="ESCAPE THE BIOLOGY LAB" styleClass="hero-subtitle"/><Label text="Master the remarkable properties of water. Collect six crystals. Unlock the lab." wrapText="true" textAlignment="CENTER" styleClass="body-copy"/>
+  <VBox spacing="11" maxWidth="330"><Button text="START GAME" onAction="#start" maxWidth="Infinity" styleClass="primary-button"/><Button text="LEARNING NOTES" onAction="#notes" maxWidth="Infinity"/><Button text="HOW TO PLAY" onAction="#how" maxWidth="Infinity"/><Button text="ACHIEVEMENTS" onAction="#achievements" maxWidth="Infinity"/><Button text="EXIT" onAction="#exit" maxWidth="Infinity" styleClass="ghost-button"/></VBox>
+ </VBox><Label text="H₂O  ···  H₂O" StackPane.alignment="BOTTOM_RIGHT" styleClass="molecule-mark"/>
+</StackPane>
