@@ -9,7 +9,7 @@ public final class Main extends Application {
         SceneManager.initialise(stage);
         stage.setTitle("Water Quest: Escape the Biology Lab");
         stage.setMinWidth(960); stage.setMinHeight(640);
-        SceneManager.switchScene("Instruction.fxml");
+        SceneManager.switchScene("NameEntry.fxml");
         stage.show();
     }
     public static void main(String[] args) { launch(args); }

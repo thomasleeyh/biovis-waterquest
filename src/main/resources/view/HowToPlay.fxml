@@ -2,5 +2,21 @@
 <?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.HowToPlayController" styleClass="app-root" prefWidth="1200" prefHeight="760">
  <top><HBox alignment="CENTER_LEFT" spacing="18" styleClass="top-bar"><Button text="‹ MENU" onAction="#back" styleClass="ghost-button"/><VBox><Label text="MISSION MANUAL" styleClass="eyebrow"/><Label text="HOW TO PLAY" styleClass="page-title"/></VBox></HBox></top>
- <center><ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll"><VBox alignment="CENTER" spacing="22" style="-fx-padding: 36 48 50 48;"><Label text="ESCAPE IN FOUR STEPS" styleClass="section-title"/><HBox alignment="TOP_CENTER" spacing="14"><VBox styleClass="manual-card"><Label text="01" styleClass="manual-number"/><Label text="ENTER THE LAB" styleClass="note-heading"/><Label text="Enter your scientist name and study Professor Aqua's mission briefing." wrapText="true" styleClass="note-fact"/></VBox><VBox styleClass="manual-card"><Label text="02" styleClass="manual-number"/><Label text="RUN EXPERIMENTS" styleClass="note-heading"/><Label text="Select each experiment piece in the scientifically correct order. A wrong arrangement shakes and resets." wrapText="true" styleClass="note-fact"/></VBox><VBox styleClass="manual-card"><Label text="03" styleClass="manual-number"/><Label text="EARN CRYSTALS" styleClass="note-heading"/><Label text="Answer the checkpoint after every experiment. Correct answers earn XP; incorrect answers cost a life." wrapText="true" styleClass="note-fact"/></VBox><VBox styleClass="manual-card"><Label text="04" styleClass="manual-number"/><Label text="ESCAPE" styleClass="note-heading"/><Label text="Collect all six Water Crystals and complete 10 timed security questions to unlock the laboratory." wrapText="true" styleClass="note-fact"/></VBox></HBox><VBox maxWidth="820" spacing="10" styleClass="tip-card"><Label text="SCIENTIST'S TIPS" styleClass="eyebrow"/><Label text="◆ Read each mission objective before selecting pieces.\n◆ Use Learning Notes whenever you need to review a concept.\n◆ Each final question has a 20-second timer.\n◆ Achievements remain visible from the main menu during the current game session." wrapText="true" styleClass="body-copy"/></VBox><Button text="START MISSION" onAction="#start" styleClass="primary-button"/></VBox></ScrollPane></center>
+ <center>
+  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll">
+   <VBox alignment="CENTER" spacing="22" style="-fx-padding: 36 48 50 48;">
+    <Label text="ESCAPE IN FOUR STEPS" styleClass="section-title"/>
+    <HBox alignment="TOP_CENTER" spacing="14">
+     <VBox styleClass="manual-card"><Label text="01" styleClass="manual-number"/><Label text="ENTER YOUR NAME" styleClass="note-heading"/><Label text="Enter your player name on the first screen, then continue into the lobby." wrapText="true" styleClass="note-fact"/></VBox>
+     <VBox styleClass="manual-card"><Label text="02" styleClass="manual-number"/><Label text="COMPLETE THE NOTES" wrapText="true" styleClass="note-heading"/><Label text="Finish all six Learning Notes topics. Start Game unlocks in the lobby after every topic is completed." wrapText="true" styleClass="note-fact"/></VBox>
+     <VBox styleClass="manual-card"><Label text="03" styleClass="manual-number"/><Label text="EARN CRYSTALS" styleClass="note-heading"/><Label text="Answer six mission questions. Correct answers earn XP; incorrect answers cost a life. Each mission awards a Water Crystal." wrapText="true" styleClass="note-fact"/></VBox>
+     <VBox styleClass="manual-card"><Label text="04" styleClass="manual-number"/><Label text="ESCAPE" styleClass="note-heading"/><Label text="Complete the 10 timed final questions, then view your accuracy, score, achievements, and result." wrapText="true" styleClass="note-fact"/></VBox>
+    </HBox>
+    <VBox maxWidth="820" spacing="10" styleClass="tip-card">
+     <Label text="SCIENTIST'S TIPS" styleClass="eyebrow"/>
+     <Label text="◆ Reach the final panel of each Learning Notes topic to complete it.&#10;◆ Return to the lobby after all six topics to unlock Start Game.&#10;◆ Read every answer option carefully; incorrect answers cost one life.&#10;◆ Each final question has a 20-second timer." wrapText="true" styleClass="body-copy"/>
+    </VBox>
+   </VBox>
+  </ScrollPane>
+ </center>
 </BorderPane>

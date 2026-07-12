@@ -17,19 +17,16 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.util.Duration;
 import model.LearningTopic;
 import service.LearningNotesService;
+import service.GameManager;
 import service.SceneManager;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /** Animated, JSON-backed digital textbook that reuses one JavaFX scene. */
 public final class LearningNotesController {
     private static final int READABLE_TOPIC_COUNT = 6;
-    /** Process-local memory: retained across scene/controller reloads and cleared when the app exits. */
-    private static final Set<String> SESSION_READ_TOPIC_IDS = new HashSet<>();
     @FXML private VBox topicListBox, keyPointsBox, storyPane, pageHost, hotspotInfoCard, keyPointsSection, funFactCard, examTipCard;
     @FXML private AnchorPane moleculeHotspots;
     @FXML private Pane ambientLayer;
@@ -116,7 +113,13 @@ public final class LearningNotesController {
     private void showPropertiesMenu(){sidebarScroll.setVisible(false);sidebarScroll.setManaged(false);topicTitleLabel.setText("Properties of Water");topicNumberLabel.setText("5 SUBTOPICS");updateSessionProgress();pageHost.getChildren().clear();Label intro=new Label("Select one property to open its interactive lesson.");intro.getStyleClass().add("home-description");VBox list=new VBox(10);list.getStyleClass().add("property-menu");for(int i=1;i<=5;i++){final int index=i;Button b=new Button((i)+"  "+topics.get(i).title().replace("Properties • ",""));b.setMaxWidth(Double.MAX_VALUE);b.setAlignment(Pos.CENTER_LEFT);b.getStyleClass().add("property-button");b.setOnAction(e->showTopic(index));list.getChildren().add(b);}Button back=new Button("‹ BACK TO MAIN TOPICS");back.getStyleClass().add("navigation-button");back.setOnAction(e->showHome());pageHost.getChildren().addAll(intro,list,back);previousButton.setVisible(false);previousButton.setManaged(false);nextButton.setVisible(false);nextButton.setManaged(false);}
 
     private void updateSessionProgress() {
-        topicProgressBar.setProgress(SESSION_READ_TOPIC_IDS.size() / (double) READABLE_TOPIC_COUNT);
+        topicProgressBar.setProgress(GameManager.getInstance().completedLearningTopicCount() / (double) READABLE_TOPIC_COUNT);
+    }
+
+    private void completeCurrentLearningTopic() {
+        if (currentIndex < 0 || currentIndex >= topics.size()) return;
+        GameManager.getInstance().completeLearningTopic(topics.get(currentIndex).id());
+        updateSessionProgress();
     }
 
     private void setLessonVisible(boolean visible){
@@ -161,7 +164,6 @@ public final class LearningNotesController {
         propertiesMenuButton.setVisible(index > 0); propertiesMenuButton.setManaged(index > 0);
         previousButton.setVisible(index > 1); previousButton.setManaged(index > 1);
         nextButton.setVisible(index >= 1 && index < 5); nextButton.setManaged(index >= 1 && index < 5);
-        SESSION_READ_TOPIC_IDS.add(topic.id());
         topicTitleLabel.setText(topic.title()); topicNumberLabel.setText("TOPIC "+(index+1)+" / "+READABLE_TOPIC_COUNT); updateSessionProgress();
         descriptionLabel.setText(topic.description()); funFactLabel.setText(topic.funFact()); examTipLabel.setText(topic.examTip());
         solventConclusionLabel.setVisible(false); solventConclusionLabel.setManaged(false);
@@ -451,7 +453,7 @@ public final class LearningNotesController {
             structureImageActionHost.setTranslateY(0);
             structureImageActionButton.setText(titles[propertyJourneyStep]);
             structureImageActionButton.setDisable(finalImage);
-            if (finalImage) showKeyPointsSummary();
+            if (finalImage) { showKeyPointsSummary(); completeCurrentLearningTopic(); }
             return;
         }
         if (topic == 4) {
@@ -471,7 +473,7 @@ public final class LearningNotesController {
             structureImageActionHost.setTranslateY(0);
             structureImageActionButton.setText(titles[propertyJourneyStep]);
             structureImageActionButton.setDisable(finalImage);
-            if (finalImage) showKeyPointsSummary();
+            if (finalImage) { showKeyPointsSummary(); completeCurrentLearningTopic(); }
             return;
         }
         if (topic == 3) {
@@ -492,7 +494,7 @@ public final class LearningNotesController {
             structureImageActionHost.setTranslateY(0);
             structureImageActionButton.setText(titles[propertyJourneyStep]);
             structureImageActionButton.setDisable(finalImage);
-            if (finalImage) showKeyPointsSummary();
+            if (finalImage) { showKeyPointsSummary(); completeCurrentLearningTopic(); }
             return;
         }
         if (topic == 5) {
@@ -512,7 +514,7 @@ public final class LearningNotesController {
             structureImageActionHost.setTranslateY(0);
             structureImageActionButton.setText(titles[propertyJourneyStep]);
             structureImageActionButton.setDisable(finalImage);
-            if (finalImage) showKeyPointsSummary();
+            if (finalImage) { showKeyPointsSummary(); completeCurrentLearningTopic(); }
             return;
         }
         configureImageInteraction(topic);
@@ -560,7 +562,7 @@ public final class LearningNotesController {
         structureImageActionHost.setTranslateY(0);
         structureImageActionButton.setDisable(false);
         if (hasNextImage) structureImageActionButton.setText(actions[structureJourneyStep]);
-        else showKeyPointsSummary();
+        else { showKeyPointsSummary(); completeCurrentLearningTopic(); }
     }
 
     /**
@@ -663,6 +665,7 @@ public final class LearningNotesController {
         if (finalImage) {
             showKeyPointsSummary();
             showSolventConclusion();
+            completeCurrentLearningTopic();
         }
     }
 

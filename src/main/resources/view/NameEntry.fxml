@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.NameEntryController" styleClass="app-root,menu-background" prefWidth="1200" prefHeight="760">
+  <VBox alignment="CENTER" spacing="20" maxWidth="560" styleClass="glass-card">
+    <Label text="WATER QUEST • SB015" styleClass="eyebrow"/>
+    <Label text="IDENTIFY YOURSELF" styleClass="section-title"/>
+    <Label text="Enter your name before entering the biology lab lobby." wrapText="true" textAlignment="CENTER" styleClass="body-copy"/>
+    <TextField fx:id="playerName" promptText="Enter player name" maxWidth="360"/>
+    <Label fx:id="errorLabel" wrapText="true" styleClass="warning"/>
+    <Button text="ENTER LOBBY  ›" onAction="#enterLobby" maxWidth="360" styleClass="primary-button"/>
+  </VBox>
+</StackPane>
