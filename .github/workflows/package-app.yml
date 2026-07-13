@@ -27,7 +27,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force target/package-input
           Copy-Item target/WaterQuest.jar target/package-input/
-          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
+          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --icon packaging/icons/h20escapegame.ico --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
           Compress-Archive -Path target/package/WaterQuest -DestinationPath WaterQuest-Windows-x64.zip
       - uses: actions/upload-artifact@v4
         with:
@@ -64,7 +64,7 @@ jobs:
         run: |
           mkdir -p target/package-input
           cp target/WaterQuest.jar target/package-input/
-          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
+          jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --icon packaging/icons/h20escapegame.icns --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
           ditto -c -k --sequesterRsrc --keepParent target/package/WaterQuest.app "${{ matrix.artifact }}.zip"
       - uses: actions/upload-artifact@v4
         with:
