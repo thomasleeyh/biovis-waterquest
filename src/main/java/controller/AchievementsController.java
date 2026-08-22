@@ -10,10 +10,11 @@ import service.SceneManager;
 
 public final class AchievementsController {
     @FXML private VBox achievementList;
-    @FXML private Label summary;
+    @FXML private Label summary, recordOwner;
 
     @FXML public void initialize() {
         Player player = GameManager.getInstance().getPlayer();
+        recordOwner.setText(player.getName() + "’s Research Record");
         summary.setText(player.getAchievements().size() + " / " + Achievement.values().length + " UNLOCKED");
         for (Achievement achievement : Achievement.values()) {
             boolean unlocked = player.getAchievements().contains(achievement);

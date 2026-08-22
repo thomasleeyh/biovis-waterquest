@@ -5,7 +5,7 @@ public final class GameManager {
  private static final GameManager INSTANCE=new GameManager(); private final Player player=new Player();private final Set<Integer> completed=new HashSet<>();private final Set<String> completedLearningTopics=new HashSet<>();private Quiz finalQuiz;
  private GameManager(){} public static GameManager getInstance(){return INSTANCE;} public Player getPlayer(){return player;}
  public void newGame(String name){player.reset();player.setName(name);completed.clear();completedLearningTopics.clear();finalQuiz=null;}
- public void completeLearningTopic(String topicId){if(topicId!=null&&!topicId.isBlank())completedLearningTopics.add(topicId);}
+ public void completeLearningTopic(String topicId){if(topicId!=null&&!topicId.isBlank()&&completedLearningTopics.add(topicId)&&completedLearningTopics.size()>=6)player.unlock(Achievement.KNOWLEDGE_EXPLORER);}
  public int completedLearningTopicCount(){return completedLearningTopics.size();}
  public boolean hasCompletedLearningNotes(){return completedLearningTopics.size()>=6;}
  public void recordAnswer(boolean correct){player.recordAnswer(correct);if(correct){player.addScore(ScoreManager.CORRECT);player.unlock(Achievement.WATER_BEGINNER);}else player.loseLife();}

@@ -1,6 +1,7 @@
 package model;
 
 public enum Achievement {
+    KNOWLEDGE_EXPLORER("Knowledge Explorer", "Complete all six Learning Notes topics"),
     WATER_BEGINNER("Water Beginner", "Answer your first question correctly"),
     HYDROGEN_BOND_EXPERT("Hydrogen Bond Expert", "Complete The Water Molecule"),
     MASTER_CHEMIST("Master Chemist", "Complete Universal Solvent"),

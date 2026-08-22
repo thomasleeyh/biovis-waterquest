@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AchievementsController" styleClass="app-root" prefWidth="1200" prefHeight="760">
- <top><HBox alignment="CENTER_LEFT" spacing="18" styleClass="top-bar"><Button text="‹ MENU" onAction="#back" styleClass="ghost-button"/><VBox><Label text="SCIENTIST PROFILE" styleClass="eyebrow"/><Label text="ACHIEVEMENTS" styleClass="page-title"/></VBox><Region HBox.hgrow="ALWAYS"/><Label fx:id="summary" text="0 / 8 UNLOCKED" styleClass="database-status"/></HBox></top>
+ <top><HBox alignment="CENTER_LEFT" spacing="18" styleClass="top-bar"><Button text="‹ MENU" onAction="#back" styleClass="ghost-button"/><VBox spacing="2"><Label text="SCIENTIST PROFILE" styleClass="eyebrow"/><Label text="ACHIEVEMENTS" styleClass="page-title"/><Label fx:id="recordOwner" text="Scientist’s Research Record" wrapText="true" maxWidth="480" styleClass="profile-owner"/></VBox><Region HBox.hgrow="ALWAYS"/><Label fx:id="summary" text="0 / 8 UNLOCKED" styleClass="database-status"/></HBox></top>
  <center><ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll"><VBox fx:id="achievementList" spacing="12" maxWidth="780" style="-fx-padding: 34 48 50 48;"/></ScrollPane></center>
 </BorderPane>
