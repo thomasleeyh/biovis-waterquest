@@ -4,5 +4,5 @@
  <Pane fx:id="particles" mouseTransparent="true"/><VBox alignment="CENTER" spacing="20" maxWidth="Infinity" maxHeight="Infinity" styleClass="glass-card,menu-screen-overlay">
   <Label fx:id="welcomeLabel" text="WELCOME, SCIENTIST" styleClass="eyebrow"/><Label text="WATER QUEST" styleClass="hero-title"/><Label text="ESCAPE THE BIOLOGY LAB" styleClass="hero-subtitle"/><Label text="Master the remarkable properties of water. Collect six crystals. Unlock the lab." wrapText="true" textAlignment="CENTER" styleClass="body-copy"/>
   <VBox spacing="11" maxWidth="330"><Button fx:id="startButton" text="START GAME" onAction="#start" maxWidth="Infinity" styleClass="primary-button"/><Label fx:id="startLockLabel" wrapText="true" textAlignment="CENTER" styleClass="feedback"/><Button text="LEARNING NOTES" onAction="#notes" maxWidth="Infinity"/><Button text="HOW TO PLAY" onAction="#how" maxWidth="Infinity"/><Button text="ACHIEVEMENTS" onAction="#achievements" maxWidth="Infinity"/><Button text="EXIT" onAction="#exit" maxWidth="Infinity" styleClass="ghost-button"/></VBox>
- </VBox><Label text="H₂O  ···  H₂O" StackPane.alignment="BOTTOM_RIGHT" styleClass="molecule-mark"/>
+ </VBox>
 </StackPane>
