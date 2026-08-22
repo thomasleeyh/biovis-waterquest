@@ -1,4 +1,6 @@
 target/
+WaterQuest.app/
+WaterQuest-*.zip
 .idea/
 .vscode/
 
