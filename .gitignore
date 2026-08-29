@@ -1,6 +1,7 @@
 target/
 WaterQuest.app/
 WaterQuest-*.zip
+src/main/resources/learning-notes.pdf/
 .idea/
 .vscode/
 
