@@ -2,16 +2,45 @@ name: Package desktop apps
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: GitHub release tag to create or update (for example, v1.0.0)
+        required: true
+        default: v1.0.0
   push:
     tags:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  prepare-release:
+    name: Prepare GitHub release
+    runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - name: Determine release tag
+        id: release
+        env:
+          MANUAL_TAG: ${{ inputs.release_tag }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=$MANUAL_TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create release if needed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" || gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --title "$RELEASE_TAG" --generate-notes
+
   package-windows:
     name: Windows (x64)
+    needs: prepare-release
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,14 +62,16 @@ jobs:
           jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --icon packaging/icons/h20escapegame.ico --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
           Compress-Archive -Path target/package/WaterQuest -DestinationPath WaterQuest-Windows-x64.zip
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: WaterQuest-Windows-x64
-          path: WaterQuest-Windows-x64.zip
-          retention-days: 5
+      - name: Upload package to GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.prepare-release.outputs.release_tag }}
+        run: gh release upload $env:RELEASE_TAG WaterQuest-Windows-x64.zip --repo $env:GITHUB_REPOSITORY --clobber
 
   package-macos:
     name: macOS (${{ matrix.arch }})
+    needs: prepare-release
     strategy:
       fail-fast: false
       matrix:
@@ -73,32 +104,8 @@ jobs:
           jpackage --type app-image --name WaterQuest --app-version 1.0.0 --vendor "SB015" --icon packaging/icons/h20escapegame.icns --input target/package-input --main-jar WaterQuest.jar --main-class application.Launcher --dest target/package
           ditto -c -k --sequesterRsrc --keepParent target/package/WaterQuest.app "${{ matrix.artifact }}.zip"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact }}
-          path: ${{ matrix.artifact }}.zip
-          retention-days: 5
-
-  publish-release:
-    name: Publish GitHub release
-    if: startsWith(github.ref, 'refs/tags/')
-    needs:
-      - package-windows
-      - package-macos
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download packaged apps
-        uses: actions/download-artifact@v4
-        with:
-          pattern: WaterQuest-*
-          path: release-assets
-          merge-multiple: true
-
-      - name: Add all packages to GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release-assets/*.zip
+      - name: Upload package to GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.prepare-release.outputs.release_tag }}
+        run: gh release upload "$RELEASE_TAG" "${{ matrix.artifact }}.zip" --repo "$GITHUB_REPOSITORY" --clobber
